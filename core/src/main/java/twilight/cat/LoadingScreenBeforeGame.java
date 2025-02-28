@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class LoadingScreenBeforeGame implements Screen {
@@ -18,6 +19,8 @@ public class LoadingScreenBeforeGame implements Screen {
     private Skin skin;
     private ProgressBar progressBar;
     private AssetManager assetManager;
+
+    private boolean loadingFinished;
 
     public LoadingScreenBeforeGame(Main game) {
         this.game = game;
@@ -44,7 +47,14 @@ public class LoadingScreenBeforeGame implements Screen {
         // **Load Game Assets**
         assetManager.load("drop_pack/background.png", Texture.class);
         assetManager.load("drop_pack/bucket.png", Texture.class);
-        assetManager.finishLoading();
+
+
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                loadingFinished = true;
+            }
+        }, 1);
     }
 
     @Override
@@ -53,7 +63,7 @@ public class LoadingScreenBeforeGame implements Screen {
 
         progressBar.setValue(assetManager.getProgress());
 
-        if (assetManager.update()) {
+        if (assetManager.update() && loadingFinished) {
             game.setScreen(new GameScreen(game)); // Switch to GameScreen
         }
 
