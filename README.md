@@ -1,4 +1,4 @@
-# 2.5D View Game
+# View Mechanics 2.5D and 3D
 
 ![](https://github.com/Aclaputra/half3d/blob/master/assets/isometric_view_sc.png)
 
