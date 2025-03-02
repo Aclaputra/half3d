@@ -20,8 +20,7 @@ public class IsometricRenderer {
 //            for (int col = 15; row >= 0; row--) {
             for (int col = 15; col >= 0; col--) {
                 float x = (col - row) * (TILE_WIDTH / 2f);
-                float y = (col + row) * (TILE_HEIGHT / 5f);
-
+                float y = (col + row) * (TILE_HEIGHT / 2.7f);
                 // set grass position
                 batch.draw(grass, x, y, TILE_WIDTH, TILE_HEIGHT);
             }
