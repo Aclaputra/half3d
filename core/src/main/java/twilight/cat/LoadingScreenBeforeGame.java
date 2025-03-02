@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
@@ -19,11 +20,13 @@ public class LoadingScreenBeforeGame implements Screen {
     private Skin skin;
     private ProgressBar progressBar;
     private AssetManager assetManager;
+    private SpriteBatch batch;
 
     private boolean loadingFinished;
 
-    public LoadingScreenBeforeGame(Main game) {
+    public LoadingScreenBeforeGame(Main game, SpriteBatch batch) {
         this.game = game;
+        this.batch = batch;
         assetManager = new AssetManager();
     }
 
@@ -64,7 +67,7 @@ public class LoadingScreenBeforeGame implements Screen {
         progressBar.setValue(assetManager.getProgress());
 
         if (assetManager.update() && loadingFinished) {
-            game.setScreen(new GameScreen(game)); // Switch to GameScreen
+            game.setScreen(new GameScreen(game, this.batch)); // Switch to GameScreen
         }
 
         stage.act(delta);

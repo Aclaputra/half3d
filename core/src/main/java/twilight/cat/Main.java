@@ -22,12 +22,13 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
-
     private Screen currentScreen;
+    private SpriteBatch batch;
 
     @Override
     public void create() {
-        setScreen(new LoadingScreen(this));
+        this.batch = new SpriteBatch();
+        setScreen(new LoadingScreen(this, this.batch));
     }
 
     @Override
@@ -49,6 +50,7 @@ public class Main extends ApplicationAdapter {
         if (currentScreen != null) {
             currentScreen.hide();
         }
+        batch.dispose();
     }
 
     public void setScreen(Screen screen) {

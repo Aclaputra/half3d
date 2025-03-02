@@ -22,9 +22,11 @@ public class LoadingScreen implements Screen {
     private AssetManager assetManager;
     private Label loadingLabel;
     private boolean loadingFinished;
+    private SpriteBatch batch;
 
-    public LoadingScreen(Main game) {
+    public LoadingScreen(Main game, SpriteBatch batch) {
         this.game = game;
+        this.batch = batch;
         assetManager = new AssetManager();
     }
 
@@ -65,7 +67,7 @@ public class LoadingScreen implements Screen {
         progressBar.setValue(assetManager.getProgress());
 
         if (assetManager.update() && loadingFinished) { // True when loading is finished
-            game.setScreen(new MainMenuScreen(game)); // Move to menu
+            game.setScreen(new MainMenuScreen(game, this.batch)); // Move to menu
         }
 
         stage.act(delta);

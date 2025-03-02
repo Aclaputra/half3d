@@ -1,10 +1,10 @@
 package twilight.cat;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -18,9 +18,11 @@ public class MainMenuScreen extends ScreenAdapter {
     private Stage stage;
     private Skin skin;
     private Texture backgroundTexture;
+    private SpriteBatch batch;
 
-    public MainMenuScreen(Main game) {
+    public MainMenuScreen(Main game, SpriteBatch batch) {
         this.game = game;
+        this.batch = batch;
     }
 
     @Override
@@ -49,7 +51,7 @@ public class MainMenuScreen extends ScreenAdapter {
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event, float x, float y) {
-                game.setScreen(new LoadingScreenBeforeGame(game)); // Load before starting game
+                game.setScreen(new LoadingScreenBeforeGame(game, batch)); // Load before starting game
             }
         });
 
