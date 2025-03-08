@@ -9,14 +9,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class GameScreen extends ScreenAdapter {
-//    private static final float PLAYER_SPEED = 200f;
-
     private PerspectiveCamera camera;
     private ModelBatch modelBatch;
     private Model model;
@@ -24,11 +24,6 @@ public class GameScreen extends ScreenAdapter {
     private Environment environment;
 
     private Main game;
-//    private SpriteBatch batch;
-//    private Texture playerTexture;
-//    private Vector2 playerPosition;
-//    private OrthographicCamera camera;
-//    private Viewport viewport;
 
     public GameScreen(Main game) {
         this.game = game;
@@ -36,23 +31,11 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
-//        batch = new SpriteBatch();
-//        playerTexture = new Texture(Gdx.files.internal("drop_pack/bucket.png")); // Ensure you have a player texture
-//
-//        playerPosition = new Vector2(100, 100);
-//
-//        camera = new OrthographicCamera();
-//        viewport = new FitViewport(800, 600, camera); // Adjust to your needs
-//        viewport.apply();
-//
-//        camera.position.set(400, 300, 0);
-
-        // Create camera
-        camera = new PerspectiveCamera(45, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.position.set(10f, 10f, 10f);  // Adjust for isometric view
-        camera.lookAt(0, 0, 0);
-        camera.near = 1f;
-        camera.far = 100f;
+        camera = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.position.set(5f, 5f, 100f);  // Move camera further back
+        camera.lookAt(-1500f, 5f, 0f);         // Point to the model's origin
+        camera.near = 0.1f;
+        camera.far = 300f;
         camera.update();
 
         modelBatch = new ModelBatch();
@@ -63,24 +46,18 @@ public class GameScreen extends ScreenAdapter {
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 
         // Create a simple cube model
-        ModelBuilder modelBuilder = new ModelBuilder();
-        model = modelBuilder.createBox(2f, 2f, 2f,
-                new Material(ColorAttribute.createDiffuse(0.3f, 0.6f, 0.9f, 1f)),
-                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+//        ModelBuilder modelBuilder = new ModelBuilder();
+//        model = modelBuilder.createBox(2f, 2f, 2f,
+//                new Material(ColorAttribute.createDiffuse(0.3f, 0.6f, 0.9f, 1f)),
+//                VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal);
+        model = new G3dModelLoader(new JsonReader()).loadModel(Gdx.files.internal("drop_pack/fish.g3dj"));
         modelInstance = new ModelInstance(model);
+
+        System.out.println(Gdx.files.internal("drop_pack/fish.g3dj").file().getAbsolutePath());
     }
 
     @Override
     public void render(float delta) {
-//        handleInput(delta);
-//
-//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//
-//        batch.setProjectionMatrix(camera.combined);
-//        batch.begin();
-//        batch.draw(playerTexture, playerPosition.x, playerPosition.y, 64, 64);
-//        batch.end();
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         modelBatch.begin(camera);
         modelBatch.render(modelInstance, environment);
